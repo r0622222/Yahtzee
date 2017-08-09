@@ -1,12 +1,19 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Categorieen;
 import model.Speler;
 
 public class Speelveld extends JFrame {
@@ -18,8 +25,20 @@ public class Speelveld extends JFrame {
 	private JLabel dobbelsteen4;
 	private JLabel dobbelsteen5;
 	private JButton rolDobbelstenen;
+	private JButton beeindigBeurt;
 	private String naam;
+	private JComboBox categorieen;
+	private Categorieen geselecteerdeCategorie;
+	private List<JLabel> dobbelsteenLabels = new ArrayList<JLabel>();
 	
+	public Categorieen getGeselecteerdeCategorie() {
+		return geselecteerdeCategorie;
+	}
+
+	private void setGeselecteerdeCategorie(Categorieen geselecteerdeCategorie) {
+		this.geselecteerdeCategorie = geselecteerdeCategorie;
+	}
+
 	private final static int HEIGHT_FRAME = 500;
 	private final static int WIDTH_FRAME = 600;
 	
@@ -44,31 +63,55 @@ public class Speelveld extends JFrame {
 		this.dobbelsteen1.setLocation(300, 50);
 		this.dobbelsteen1.setSize(30, 30);
 		this.add(dobbelsteen1);
+		this.dobbelsteenLabels.add(dobbelsteen1);
 		
 		this.dobbelsteen2 = new JLabel("1");
 		this.dobbelsteen2.setLocation(300, 100);
 		this.dobbelsteen2.setSize(30, 30);
 		this.add(dobbelsteen2);
+		this.dobbelsteenLabels.add(dobbelsteen2);
 		
 		this.dobbelsteen3 = new JLabel("1");
 		this.dobbelsteen3.setLocation(300, 150);
 		this.dobbelsteen3.setSize(30, 30);
 		this.add(dobbelsteen3);
+		this.dobbelsteenLabels.add(dobbelsteen3);
 		
 		this.dobbelsteen4 = new JLabel("1");
 		this.dobbelsteen4.setLocation(300, 200);
 		this.dobbelsteen4.setSize(30, 30);
 		this.add(dobbelsteen4);
+		this.dobbelsteenLabels.add(dobbelsteen4);
 		
 		this.dobbelsteen5 = new JLabel("1");
 		this.dobbelsteen5.setLocation(300, 250);
 		this.dobbelsteen5.setSize(30, 30);
 		this.add(dobbelsteen5);
+		this.dobbelsteenLabels.add(dobbelsteen5);
 		
 		this.rolDobbelstenen = new JButton("Rol dobbelstenen");
-		this.rolDobbelstenen.setLocation(100, 400);
+		this.rolDobbelstenen.setLocation(100, 300);
 		this.rolDobbelstenen.setSize(200, 30);
 		this.add(rolDobbelstenen);
+		disableRollButton();
+		
+		this.beeindigBeurt = new JButton("Beëindig beurt");
+		this.beeindigBeurt.setLocation(100, 350);
+		this.beeindigBeurt.setSize(200, 30);
+		this.add(beeindigBeurt);
+		
+		this.categorieen = new JComboBox<>(Categorieen.getAllCategorieen().toArray());
+		this.geselecteerdeCategorie = Categorieen.ACES;
+		this.categorieen.setLocation(100, 250);
+		this.categorieen.setSize(150, 30);
+		this.add(categorieen);
+		
+		this.categorieen.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setGeselecteerdeCategorie((Categorieen) categorieen.getSelectedItem());
+			}
+		});
 	}
 	
 	public void updateDobbelsteen1(String waarde)
@@ -99,5 +142,56 @@ public class Speelveld extends JFrame {
 	public void addMouseClickListenerToRollButton(MouseListener listener)
 	{
 		this.rolDobbelstenen.addMouseListener(listener);
+	}
+	
+	public void addMouseClickListenerToBeeindigBeurtButton(MouseListener listener)
+	{
+		this.beeindigBeurt.addMouseListener(listener);
+	}
+	
+	public void enableRollButton()
+	{
+		this.rolDobbelstenen.setEnabled(true);
+	}
+	
+	public void disableRollButton()
+	{
+		this.rolDobbelstenen.setEnabled(false);
+	}
+	
+	public boolean isRollButtonEnabled()
+	{
+		return this.rolDobbelstenen.isEnabled();
+	}
+	
+	public void addMouseClickListenerToDobbelsteen1(MouseListener listener)
+	{
+		this.dobbelsteen1.addMouseListener(listener);
+	}
+	
+	public void addMouseClickListenerToDobbelsteen2(MouseListener listener)
+	{
+		this.dobbelsteen2.addMouseListener(listener);
+	}
+	
+	public void addMouseClickListenerToDobbelsteen3(MouseListener listener)
+	{
+		this.dobbelsteen3.addMouseListener(listener);
+	}
+	
+	public void addMouseClickListenerToDobbelsteen4(MouseListener listener)
+	{
+		this.dobbelsteen4.addMouseListener(listener);
+	}
+	
+	public void addMouseClickListenerToDobbelsteen5(MouseListener listener)
+	{
+		this.dobbelsteen5.addMouseListener(listener);
+	}
+	
+	public void veranderAchtergrondKleurDobbelsteen(int dobbelsteennr)
+	{
+		this.dobbelsteenLabels.get(dobbelsteennr).setBackground(Color.gray);
+		this.dobbelsteenLabels.get(dobbelsteennr).setOpaque(true);
 	}
 }

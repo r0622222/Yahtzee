@@ -3,16 +3,31 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.spelerState.SpelerAanBeurt;
+import model.spelerState.SpelerNietAanBeurt;
+import model.spelerState.SpelerState;
+
 public class Speler {
 
 	private String naam;
 	private int score;
 	private List<Dobbelsteen> dobbelstenen = new ArrayList<>();
-	
+	private SpelerState state;
+
 	public Speler(String naam)
 	{
 		this.setNaam(naam);
 		this.score = 0;
+		this.setState(new SpelerNietAanBeurt());
+		this.genereerDobbelstenen();
+	}
+	
+	public SpelerState getState() {
+		return state;
+	}
+
+	private void setState(SpelerState state) {
+		this.state = state;
 	}
 
 	public String getNaam() {
@@ -40,19 +55,32 @@ public class Speler {
 		this.dobbelstenen = dobbelstenen;
 	}
 
-	public void dobbelstenenRollen()
+	public List<Dobbelsteen> dobbelstenenRollen()
 	{
-		for (Dobbelsteen dobbelsteen : dobbelstenen)
-		{
-			if (dobbelsteen.getState() instanceof DobbelsteenInSpel)
-			{
-				dobbelsteen.dobbelstenenRollen();
-			}
-		}
+		state.dobbelstenenRollen();
+		return getDobbelstenen();
 	}
 	
 	public void dobbelsteenOpzijLeggen(int dobbelsteen)
 	{
-		dobbelstenen.get(dobbelsteen).dobbelsteenOpzijLeggen();
+		state.dobbelsteenOpzijLeggen(dobbelsteen);	
+	}
+	
+	public void beeindigBeurt()
+	{
+		this.setState(new SpelerNietAanBeurt());
+	}
+	
+	public void beginBeurt()
+	{
+		this.setState(new SpelerAanBeurt(this));
+	}
+	
+	public void genereerDobbelstenen()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			dobbelstenen.add(new Dobbelsteen());
+		}
 	}
 }

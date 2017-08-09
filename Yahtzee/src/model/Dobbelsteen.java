@@ -2,15 +2,18 @@ package model;
 
 import java.util.Random;
 
+import model.dobbelsteenState.DobbelsteenInSpel;
+import model.dobbelsteenState.DobbelsteenState;
+
 public class Dobbelsteen {
 
 	private int waarde;
-	private boolean opzijGelegd;
 	private DobbelsteenState state;
 	
 	public Dobbelsteen()
 	{
-		this.setState(new DobbelsteenInSpel());
+		setWaarde(1);
+		this.setState(new DobbelsteenInSpel(this));
 	}
 	
 	public void setState(DobbelsteenState state)
@@ -25,12 +28,12 @@ public class Dobbelsteen {
 	
 	public void dobbelstenenRollen()
 	{
-		state.dobbelstenenRollen(this);
+		state.dobbelstenenRollen();
 	}
 	
 	public void dobbelsteenOpzijLeggen()
 	{
-		state.dobbelsteenOpzijLeggen(this);
+		state.dobbelsteenOpzijLeggen();
 	}
 
 	public int getWaarde() {
@@ -40,13 +43,5 @@ public class Dobbelsteen {
 	public void setWaarde(int waarde) {
 		if (waarde < 1 || waarde > 6) throw new DomainException("Ongeldige waarde dobbelsteen!");
 		this.waarde = waarde;
-	}
-
-	public boolean isOpzijGelegd() {
-		return opzijGelegd;
-	}
-
-	private void setOpzijGelegd(boolean opzijGelegd) {
-		this.opzijGelegd = opzijGelegd;
 	}
 }

@@ -3,6 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.spelState.RegisteredState;
+import model.spelState.SpelState;
+import model.spelerState.SpelerAanBeurt;
+
 public class Spel {
 
 	private List<Speler> spelers = new ArrayList<>();
@@ -11,7 +15,7 @@ public class Spel {
 	
 	public Spel()
 	{
-		setState(new RegisteredState());	
+		setState(new RegisteredState(this));	
 	}
 	
 	public void setState(SpelState state)
@@ -23,7 +27,13 @@ public class Spel {
 	{
 		if (naam == null) throw new DomainException("Speler is null!");
 		if (spelerBestaatAl(naam)) throw new DomainException("Deze naam werd al ingegeven!");
-		state.voegSpelerToe(this, new Speler(naam));
+		state.voegSpelerToe(new Speler(naam));
+	}
+	
+	public void start()
+	{
+		state.start();
+		spelers.get(0).beginBeurt();
 	}
 	
 	public List<Speler> getSpelers() {
@@ -56,5 +66,22 @@ public class Spel {
 			if (spelers.get(i).getNaam().equals(naam)) r = i;
 		}
 		return r;
+	}
+	
+	public int huidigeSpelerAanBeurt()
+	{
+		int r = 0;
+		for (int i = 0; i < spelers.size(); i++)
+		{
+			if (spelers.get(i).getState() instanceof SpelerAanBeurt) r = i;
+		}
+		return r;
+	}
+	
+	public void zetVolgendeSpelerAanBeurt()
+	{
+		int b = this.huidigeSpelerAanBeurt();
+		spelers.get(b).beeindigBeurt();
+		spelers.get((b + 1) % this.aantalSpelers()).beginBeurt();
 	}
 }

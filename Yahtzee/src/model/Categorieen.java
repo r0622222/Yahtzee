@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public enum Categorieen {
 	ACES, 
 	TWOS, 
@@ -13,5 +15,15 @@ public enum Categorieen {
 	SMALL_STRAIGHT,
 	LARGE_STRAIGHT,
 	YAHTZEE,
-	CHANCE
+	CHANCE;
+	
+	public static ArrayList<Categorieen> getAllCategorieen()
+	{
+		ArrayList<Categorieen> allCategorieen = new ArrayList<Categorieen>();
+		for (Categorieen categorie : Categorieen.values())
+		{
+			allCategorieen.add(categorie);
+		}
+		return allCategorieen;
+	}
 }

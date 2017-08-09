@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import model.Categorieen;
+
 public class YahtzeeView {
 	
 	private List<Speelveld> velden = new ArrayList<Speelveld>();
@@ -83,4 +85,84 @@ public class YahtzeeView {
 			veld.addMouseClickListenerToRollButton(listener);
 		}
 	}
-}
+	
+	public void addMouseClickListenerToBeeindigBeurtButton(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToBeeindigBeurtButton(listener);
+		}
+	}
+	
+	public Categorieen getGeselecteerdeCategorie(int veldnr)
+	{
+		return velden.get(veldnr).getGeselecteerdeCategorie();
+	}
+	
+	public void startSpel()
+	{
+		velden.get(0).enableRollButton();
+	}
+	
+	public int huidigeSpelerAanBeurt()
+	{
+		int r = 0;
+		for (int i = 0; i < velden.size(); i++)
+		{
+			if (velden.get(i).isRollButtonEnabled()) r = i;
+		}
+		return r;
+	}
+	
+	public void volgendeSpeler()
+	{
+		int b = huidigeSpelerAanBeurt();
+		velden.get(b).disableRollButton();
+		velden.get((b + 1) % velden.size()).enableRollButton();
+	}
+	
+	public void addMouseClickListenerToDobbelsteen1(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToDobbelsteen1(listener);
+		}	
+	}
+	
+	public void addMouseClickListenerToDobbelsteen2(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToDobbelsteen2(listener);
+		}	
+	}
+	
+	public void addMouseClickListenerToDobbelsteen3(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToDobbelsteen3(listener);
+		}	
+	}
+	
+	public void addMouseClickListenerToDobbelsteen4(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToDobbelsteen4(listener);
+		}	
+	}
+	
+	public void addMouseClickListenerToDobbelsteen5(MouseListener listener)
+	{
+		for (Speelveld veld : velden)
+		{
+			veld.addMouseClickListenerToDobbelsteen5(listener);
+		}	
+	}
+	
+	public void veranderAchtergrondKleurDobbelsteen(int dobbelsteennr, int veldnr)
+	{
+		velden.get(veldnr).veranderAchtergrondKleurDobbelsteen(dobbelsteennr);
+	}
+} 
