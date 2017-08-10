@@ -1,8 +1,7 @@
 package model.dobbelsteenState;
 
-import java.util.Random;
-
 import model.Dobbelsteen;
+import model.DomainException;
 
 public class DobbelsteenInSpel implements DobbelsteenState {
 
@@ -20,13 +19,18 @@ public class DobbelsteenInSpel implements DobbelsteenState {
 	
 	@Override
 	public void dobbelsteenOpzijLeggen() {
-		dobbelsteen.setState(new DobbelsteenOpzij());
+		dobbelsteen.setState(new DobbelsteenOpzij(dobbelsteen));
 	}
 
 	@Override
 	public void dobbelstenenRollen() {
 		int getal = (int) (Math.random() * 6 + 1);
 		dobbelsteen.setWaarde(getal);
+	}
+
+	@Override
+	public void dobbelsteenInSpelLeggen() {
+		throw new DomainException("Kan dobbelsteen niet in spel leggen, dobbelsteen is al in spel!");
 	}
 
 }

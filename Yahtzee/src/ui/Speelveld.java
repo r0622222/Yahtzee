@@ -54,8 +54,8 @@ public class Speelveld extends JFrame {
 		this.setLayout(null);
 		this.setTitle("Yahtzee");
 		
-		this.naamLabel = new JLabel(naam);
-		this.naamLabel.setLocation(200, 200);
+		this.naamLabel = new JLabel(naam + " playing");
+		this.naamLabel.setLocation(100, 200);
 		this.naamLabel.setSize(350, 40);
 		this.add(naamLabel);
 		
@@ -99,6 +99,7 @@ public class Speelveld extends JFrame {
 		this.beeindigBeurt.setLocation(100, 350);
 		this.beeindigBeurt.setSize(200, 30);
 		this.add(beeindigBeurt);
+		disableBeeindigBeurtButton();
 		
 		this.categorieen = new JComboBox<>(Categorieen.getAllCategorieen().toArray());
 		this.geselecteerdeCategorie = Categorieen.ACES;
@@ -193,5 +194,29 @@ public class Speelveld extends JFrame {
 	{
 		this.dobbelsteenLabels.get(dobbelsteennr).setBackground(Color.gray);
 		this.dobbelsteenLabels.get(dobbelsteennr).setOpaque(true);
+	}
+	
+	public void enableBeeindigBeurtButton()
+	{
+		this.beeindigBeurt.setEnabled(true);
+	}
+	
+	public void disableBeeindigBeurtButton()
+	{
+		this.beeindigBeurt.setEnabled(false);
+	}
+	
+	public boolean isBeeindigBeurtButtonEnabled()
+	{
+		return this.beeindigBeurt.isEnabled();
+	}
+	
+	public void veranderAchtergrondKleurAlleDobbelstenenDefault()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			this.dobbelsteenLabels.get(i).setBackground(getBackground());
+			this.dobbelsteenLabels.get(i).setOpaque(true);
+		}
 	}
 }

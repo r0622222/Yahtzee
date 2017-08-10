@@ -44,4 +44,9 @@ public class Dobbelsteen {
 		if (waarde < 1 || waarde > 6) throw new DomainException("Ongeldige waarde dobbelsteen!");
 		this.waarde = waarde;
 	}
+	
+	public void dobbelsteenInSpelLeggen()
+	{
+		state.dobbelsteenInSpelLeggen();
+	}
 }

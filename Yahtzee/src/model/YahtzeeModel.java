@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.dobbelsteenState.DobbelsteenInSpel;
+
 public class YahtzeeModel {
 
 	private Spel spel;
@@ -60,5 +62,48 @@ public class YahtzeeModel {
 	public void dobbelsteenOpzijLeggen(int spelernr, int dobbelsteennr)
 	{
 		spel.getSpelers().get(spelernr).dobbelsteenOpzijLeggen(dobbelsteennr);
+	}
+	
+	public void geefSpelerPunten(int spelernr, int punten)
+	{
+		spel.geefSpelerPunten(spelernr, punten);
+	}
+	
+	public void updateCategorie(Categorieen categorie, int spelernr)
+	{
+		spel.getSpelers().get(spelernr).updateCategorie(categorie);
+	}
+	
+	public int getAantalKeerGerold(int spelernr)
+	{
+		return spel.getSpelers().get(spelernr).getAantalKeerGerold();
+	}
+	
+	public int getMaxAantalKeerGerold()
+	{
+		return Speler.ROL_KANSEN;
+	}
+	
+	public void legAlleDobbelstenenSpelerOpzij(int spelernr)
+	{
+		for (Dobbelsteen dobbelsteen : spel.getSpelers().get(spelernr).getDobbelstenen())
+		{
+			if (dobbelsteen.getState() instanceof DobbelsteenInSpel) 
+			{
+				dobbelsteen.dobbelsteenOpzijLeggen();
+			}
+		}
+	}
+	
+	public boolean zijnAlleDobbelstenenSpelerOpzij(int spelernr)
+	{
+		for (Dobbelsteen dobbelsteen : spel.getSpelers().get(spelernr).getDobbelstenen())
+		{
+			if (dobbelsteen.getState() instanceof DobbelsteenInSpel)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

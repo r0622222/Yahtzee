@@ -59,21 +59,33 @@ public class Controller {
 	public void dobbelstenenRollen(int spelernr)
 	{
 		List<Dobbelsteen> dobbelstenen = model.dobbelstenenRollen(spelernr);
-		view.updateDobbelsteen1(Integer.toString(dobbelstenen.get(0).getWaarde()), spelernr);
-		view.updateDobbelsteen2(Integer.toString(dobbelstenen.get(1).getWaarde()), spelernr);
-		view.updateDobbelsteen3(Integer.toString(dobbelstenen.get(2).getWaarde()), spelernr);
-		view.updateDobbelsteen4(Integer.toString(dobbelstenen.get(3).getWaarde()), spelernr);
-		view.updateDobbelsteen5(Integer.toString(dobbelstenen.get(4).getWaarde()), spelernr);
+		for (int i = 0; i < model.getAantalSpelers(); i++){
+			view.updateDobbelsteen1(Integer.toString(dobbelstenen.get(0).getWaarde()), i);
+			view.updateDobbelsteen2(Integer.toString(dobbelstenen.get(1).getWaarde()), i);
+			view.updateDobbelsteen3(Integer.toString(dobbelstenen.get(2).getWaarde()), i);
+			view.updateDobbelsteen4(Integer.toString(dobbelstenen.get(3).getWaarde()), i);
+			view.updateDobbelsteen5(Integer.toString(dobbelstenen.get(4).getWaarde()), i);
+		}
 	}
 	
 	public void dobbelsteenOpzijLeggen(int dobbelsteen)
 	{
 		int b = view.huidigeSpelerAanBeurt();
-		try {
-			model.dobbelsteenOpzijLeggen(b, dobbelsteen);
-			view.veranderAchtergrondKleurDobbelsteen(dobbelsteen, b);
-		} catch (Exception e) {
-			view.showError(e.getMessage());
+		if ((model.getAantalKeerGerold(b) != model.getMaxAantalKeerGerold()) && model.getAantalKeerGerold(b) != 0) {
+			try {
+				model.dobbelsteenOpzijLeggen(b, dobbelsteen);
+				view.veranderAchtergrondKleurDobbelsteen(dobbelsteen, b);
+			} catch (Exception e) {
+				view.showError(e.getMessage());
+			}
+		}
+		else if (model.getAantalKeerGerold(b) == 0) 
+		{
+			view.showError("Je hebt nog niet gerold!");
+		}
+		else 
+		{
+			view.showError("Je beurt is over, je kan enkel nog een categorie kiezen!");
 		}
 	}
 	
@@ -82,10 +94,16 @@ public class Controller {
 		public void mouseClicked(MouseEvent event)
 		{
 			int huidigeSpelerAanBeurt = view.huidigeSpelerAanBeurt();
-			try {
-				dobbelstenenRollen(huidigeSpelerAanBeurt);
-			} catch (Exception e) {
-				view.showError(e.getMessage());
+			if (!model.zijnAlleDobbelstenenSpelerOpzij(huidigeSpelerAanBeurt)) {
+				try {
+					dobbelstenenRollen(huidigeSpelerAanBeurt);
+				} catch (Exception e) {
+					view.showError(e.getMessage());
+				}
+			}
+			if (model.getAantalKeerGerold(huidigeSpelerAanBeurt) == model.getMaxAantalKeerGerold()) 
+			{
+				view.veranderAchtergrondKleurAlleDobbelstenen(huidigeSpelerAanBeurt);
 			}
 		}
 	}
@@ -94,7 +112,10 @@ public class Controller {
 	{
 		public void mouseClicked(MouseEvent event)
 		{
-			
+			int huidigeSpeler = view.huidigeSpelerAanBeurt();
+			model.updateCategorie(view.getGeselecteerdeCategorieActieveSpeler(), huidigeSpeler);
+			model.zetVolgendeSpelerAanBeurt();
+			view.volgendeSpeler();
 		}
 	}
 	
@@ -102,12 +123,6 @@ public class Controller {
 	{
 		public void mouseClicked(MouseEvent event)
 		{
-			/*int b = view.huidigeSpelerAanBeurt();
-			try {
-				model.dobbelsteenOpzijLeggen(b, 0);
-			} catch (Exception e) {
-				view.showError(e.getMessage());
-			}*/
 			dobbelsteenOpzijLeggen(0);
 		}
 	}

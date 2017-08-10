@@ -94,14 +94,15 @@ public class YahtzeeView {
 		}
 	}
 	
-	public Categorieen getGeselecteerdeCategorie(int veldnr)
+	public Categorieen getGeselecteerdeCategorieActieveSpeler()
 	{
-		return velden.get(veldnr).getGeselecteerdeCategorie();
+		return velden.get(huidigeSpelerAanBeurt()).getGeselecteerdeCategorie();
 	}
 	
 	public void startSpel()
 	{
 		velden.get(0).enableRollButton();
+		velden.get(0).enableBeeindigBeurtButton();
 	}
 	
 	public int huidigeSpelerAanBeurt()
@@ -118,7 +119,10 @@ public class YahtzeeView {
 	{
 		int b = huidigeSpelerAanBeurt();
 		velden.get(b).disableRollButton();
+		velden.get(b).disableBeeindigBeurtButton();
 		velden.get((b + 1) % velden.size()).enableRollButton();
+		velden.get((b + 1) % velden.size()).enableBeeindigBeurtButton();
+		velden.get(b).veranderAchtergrondKleurAlleDobbelstenenDefault();
 	}
 	
 	public void addMouseClickListenerToDobbelsteen1(MouseListener listener)
@@ -164,5 +168,14 @@ public class YahtzeeView {
 	public void veranderAchtergrondKleurDobbelsteen(int dobbelsteennr, int veldnr)
 	{
 		velden.get(veldnr).veranderAchtergrondKleurDobbelsteen(dobbelsteennr);
+	}
+	
+	public void veranderAchtergrondKleurAlleDobbelstenen(int veldnr)
+	{
+		
+	    for(int i = 0; i < 5; i++)
+		{
+			veranderAchtergrondKleurDobbelsteen(i, veldnr);
+		}
 	}
 } 

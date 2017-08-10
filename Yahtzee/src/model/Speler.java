@@ -13,20 +13,25 @@ public class Speler {
 	private int score;
 	private List<Dobbelsteen> dobbelstenen = new ArrayList<>();
 	private SpelerState state;
+	private int aantalKeerGerold;
+	public static final int ROL_KANSEN = 3;
+	private Categorieen huidigeCategorie;
 
 	public Speler(String naam)
 	{
 		this.setNaam(naam);
 		this.score = 0;
-		this.setState(new SpelerNietAanBeurt());
+		this.setState(new SpelerNietAanBeurt(this));
 		this.genereerDobbelstenen();
+		this.setAantalKeerGerold(0);
+		this.setCategorie(Categorieen.ACES);
 	}
 	
 	public SpelerState getState() {
 		return state;
 	}
 
-	private void setState(SpelerState state) {
+	public void setState(SpelerState state) {
 		this.state = state;
 	}
 
@@ -57,7 +62,10 @@ public class Speler {
 
 	public List<Dobbelsteen> dobbelstenenRollen()
 	{
+		if (this.getAantalKeerGerold() == this.ROL_KANSEN) throw new DomainException("Je hebt al drie keer gerold!");
 		state.dobbelstenenRollen();
+		this.spelerHeeftEenKeerGerold();
+		System.out.println(getAantalKeerGerold());
 		return getDobbelstenen();
 	}
 	
@@ -68,19 +76,47 @@ public class Speler {
 	
 	public void beeindigBeurt()
 	{
-		this.setState(new SpelerNietAanBeurt());
+		state.beeindigBeurt();
 	}
 	
 	public void beginBeurt()
 	{
-		this.setState(new SpelerAanBeurt(this));
+		state.beginBeurt();
 	}
 	
-	public void genereerDobbelstenen()
+	private void genereerDobbelstenen()
 	{
 		for (int i = 0; i < 5; i++)
 		{
 			dobbelstenen.add(new Dobbelsteen());
 		}
+	}
+	
+	public void voegPuntenToe(int punten)
+	{
+		score += punten;
+	}
+	
+	public int getAantalKeerGerold() {
+		return aantalKeerGerold;
+	}
+
+	public void setAantalKeerGerold(int aantalKeerGerold) {
+		this.aantalKeerGerold = aantalKeerGerold;
+	}
+	
+	public void spelerHeeftEenKeerGerold()
+	{
+		this.aantalKeerGerold++;
+	}
+	
+	public void setCategorie(Categorieen categorie)
+	{
+		this.huidigeCategorie = categorie;
+	}
+	
+	public void updateCategorie(Categorieen categorie)
+	{
+		state.updateCategorie(categorie);
 	}
 }

@@ -84,4 +84,9 @@ public class Spel {
 		spelers.get(b).beeindigBeurt();
 		spelers.get((b + 1) % this.aantalSpelers()).beginBeurt();
 	}
+	
+	public void geefSpelerPunten(int spelernr, int punten)
+	{
+		spelers.get(spelernr).voegPuntenToe(punten);
+	}
 }
