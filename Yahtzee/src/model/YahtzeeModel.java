@@ -106,4 +106,19 @@ public class YahtzeeModel {
 		}
 		return true;
 	}
+	
+	public void voegCategorieToeAanAlGekozen(int spelernr, Categorieen categorie)
+	{
+		spel.voegCategorieToeAanAlGekozen(spelernr, categorie);
+	}
+	
+	public void heeftAlGekozenDezeCategorieAl(int spelernr, Categorieen categorie)
+	{
+		spel.getSpelers().get(spelernr).heeftAlGekozenDezeCategorieAl(categorie);
+	}
+	
+	public boolean heeftLaatsteSpelerAlleCategorieenGekozen()
+	{
+		return spel.getSpelers().get(getAantalSpelers() - 1).zijnAlleCategorieenGekozen();
+	}
 }

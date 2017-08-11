@@ -13,9 +13,9 @@ public class YahtzeeView {
 	
 	private List<Speelveld> velden = new ArrayList<Speelveld>();
 	
-	public String getSpelerNaam()
+	public String getSpelerNaam(int i)
 	{
-		String naam = JOptionPane.showInputDialog("Wat is uw naam?");
+		String naam = JOptionPane.showInputDialog("Speler " + i + ", Wat is uw naam?");
 		return naam;
 	}
 	
@@ -178,4 +178,5 @@ public class YahtzeeView {
 			veranderAchtergrondKleurDobbelsteen(i, veldnr);
 		}
 	}
+	
 } 

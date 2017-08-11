@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.Categorieen;
 import model.Speler;
@@ -39,8 +40,8 @@ public class Speelveld extends JFrame {
 		this.geselecteerdeCategorie = geselecteerdeCategorie;
 	}
 
-	private final static int HEIGHT_FRAME = 500;
-	private final static int WIDTH_FRAME = 600;
+	private final static int HEIGHT_FRAME = 400;
+	private final static int WIDTH_FRAME = 400;
 	
 	public Speelveld(String naam) {
 		super();
@@ -55,56 +56,56 @@ public class Speelveld extends JFrame {
 		this.setTitle("Yahtzee");
 		
 		this.naamLabel = new JLabel(naam + " playing");
-		this.naamLabel.setLocation(100, 200);
-		this.naamLabel.setSize(350, 40);
+		this.naamLabel.setLocation(5, 0);
+		this.naamLabel.setSize(WIDTH_FRAME, 30);
 		this.add(naamLabel);
 		
-		this.dobbelsteen1 = new JLabel("1");
-		this.dobbelsteen1.setLocation(300, 50);
+		this.dobbelsteen1 = new JLabel("1", SwingConstants.CENTER);
+		this.dobbelsteen1.setLocation(85, 60);
 		this.dobbelsteen1.setSize(30, 30);
 		this.add(dobbelsteen1);
 		this.dobbelsteenLabels.add(dobbelsteen1);
 		
-		this.dobbelsteen2 = new JLabel("1");
-		this.dobbelsteen2.setLocation(300, 100);
+		this.dobbelsteen2 = new JLabel("1", SwingConstants.CENTER);
+		this.dobbelsteen2.setLocation(135, 60);
 		this.dobbelsteen2.setSize(30, 30);
 		this.add(dobbelsteen2);
 		this.dobbelsteenLabels.add(dobbelsteen2);
 		
-		this.dobbelsteen3 = new JLabel("1");
-		this.dobbelsteen3.setLocation(300, 150);
+		this.dobbelsteen3 = new JLabel("1", SwingConstants.CENTER);
+		this.dobbelsteen3.setLocation(185, 60);
 		this.dobbelsteen3.setSize(30, 30);
 		this.add(dobbelsteen3);
 		this.dobbelsteenLabels.add(dobbelsteen3);
 		
-		this.dobbelsteen4 = new JLabel("1");
-		this.dobbelsteen4.setLocation(300, 200);
+		this.dobbelsteen4 = new JLabel("1", SwingConstants.CENTER);
+		this.dobbelsteen4.setLocation(235, 60);
 		this.dobbelsteen4.setSize(30, 30);
 		this.add(dobbelsteen4);
 		this.dobbelsteenLabels.add(dobbelsteen4);
 		
-		this.dobbelsteen5 = new JLabel("1");
-		this.dobbelsteen5.setLocation(300, 250);
+		this.dobbelsteen5 = new JLabel("1", SwingConstants.CENTER);
+		this.dobbelsteen5.setLocation(285, 60);
 		this.dobbelsteen5.setSize(30, 30);
 		this.add(dobbelsteen5);
 		this.dobbelsteenLabels.add(dobbelsteen5);
 		
 		this.rolDobbelstenen = new JButton("Rol dobbelstenen");
-		this.rolDobbelstenen.setLocation(100, 300);
-		this.rolDobbelstenen.setSize(200, 30);
+		this.rolDobbelstenen.setLocation(85, 100);
+		this.rolDobbelstenen.setSize(230, 30);
 		this.add(rolDobbelstenen);
 		disableRollButton();
 		
 		this.beeindigBeurt = new JButton("Beëindig beurt");
-		this.beeindigBeurt.setLocation(100, 350);
-		this.beeindigBeurt.setSize(200, 30);
+		this.beeindigBeurt.setLocation(115, 250);
+		this.beeindigBeurt.setSize(170, 30);
 		this.add(beeindigBeurt);
 		disableBeeindigBeurtButton();
 		
 		this.categorieen = new JComboBox<>(Categorieen.getAllCategorieen().toArray());
 		this.geselecteerdeCategorie = Categorieen.ACES;
-		this.categorieen.setLocation(100, 250);
-		this.categorieen.setSize(150, 30);
+		this.categorieen.setLocation(115, 210);
+		this.categorieen.setSize(170, 30);
 		this.add(categorieen);
 		
 		this.categorieen.addActionListener(new ActionListener(){

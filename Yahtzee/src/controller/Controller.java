@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Dobbelsteen;
 import model.Speler;
 import model.YahtzeeModel;
@@ -25,12 +27,14 @@ public class Controller {
 	public void registreerSpelers()
 	{
 		int aantalSpelers = view.vraagAantalSpelers();
+		int i = 1;
 		while(aantalSpelers != 0)
 		{
 			try {
-				String naam = view.getSpelerNaam();
+				String naam = view.getSpelerNaam(i);
 				model.voegSpelerToe(naam);
 				aantalSpelers--;
+				i++;
 			} catch (Exception e) {
 				view.showError(e.getMessage());
 			}
@@ -89,6 +93,20 @@ public class Controller {
 		}
 	}
 	
+	public void beeindigSpel()
+	{
+		int opniew = JOptionPane.showOptionDialog(null, "Wil je opniew spelen?", "GAME OVER", JOptionPane.OK_CANCEL_OPTION, 
+				JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Ja", "Nee"}, null);
+		if (opniew == JOptionPane.OK_OPTION)
+		{
+			//herstart spel
+		}
+		else {
+			System.exit(0);
+		}
+		
+	}
+	
 	private class RollButtonHandler extends MouseAdapter
 	{
 		public void mouseClicked(MouseEvent event)
@@ -113,9 +131,18 @@ public class Controller {
 		public void mouseClicked(MouseEvent event)
 		{
 			int huidigeSpeler = view.huidigeSpelerAanBeurt();
-			model.updateCategorie(view.getGeselecteerdeCategorieActieveSpeler(), huidigeSpeler);
-			model.zetVolgendeSpelerAanBeurt();
-			view.volgendeSpeler();
+			if (model.getAantalKeerGerold(huidigeSpeler) == 0) view.showError("Je hebt nog niet gerold!");
+			else {
+				try {
+					model.updateCategorie(view.getGeselecteerdeCategorieActieveSpeler(), huidigeSpeler);
+					model.voegCategorieToeAanAlGekozen(huidigeSpeler, view.getGeselecteerdeCategorieActieveSpeler());
+					if (model.heeftLaatsteSpelerAlleCategorieenGekozen()) beeindigSpel();
+					model.zetVolgendeSpelerAanBeurt();
+					view.volgendeSpeler();
+				} catch (Exception e) {
+					view.showError(e.getMessage());
+				}
+			}
 		}
 	}
 	

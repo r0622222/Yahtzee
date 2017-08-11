@@ -89,4 +89,9 @@ public class Spel {
 	{
 		spelers.get(spelernr).voegPuntenToe(punten);
 	}
+	
+	public void voegCategorieToeAanAlGekozen(int spelernr, Categorieen categorie)
+	{
+		spelers.get(spelernr).voegCategorieToeAanAlGekozen(categorie);
+	}
 }

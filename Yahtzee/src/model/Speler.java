@@ -16,6 +16,7 @@ public class Speler {
 	private int aantalKeerGerold;
 	public static final int ROL_KANSEN = 3;
 	private Categorieen huidigeCategorie;
+	private List<Categorieen> alGekozenCategorieen = new ArrayList<>();
 
 	public Speler(String naam)
 	{
@@ -117,6 +118,32 @@ public class Speler {
 	
 	public void updateCategorie(Categorieen categorie)
 	{
+		if (heeftAlGekozenDezeCategorieAl(categorie)) throw new DomainException("Je hebt deze categorie al gekozen!");
 		state.updateCategorie(categorie);
 	}
+	
+	public List<Categorieen> getAlGekozenCategorieen()
+	{
+		return alGekozenCategorieen;
+	}
+	
+	public void voegCategorieToeAanAlGekozen(Categorieen categorie)
+	{
+		this.alGekozenCategorieen.add(categorie);
+	}
+	
+	public boolean heeftAlGekozenDezeCategorieAl(Categorieen categorie)
+	{
+		for (Categorieen gekozenCategorie : alGekozenCategorieen )
+		{
+			if (gekozenCategorie.equals(categorie)) return true;
+		}
+		return false;
+	}
+	
+	public boolean zijnAlleCategorieenGekozen()
+	{
+		return Categorieen.getAllCategorieen().size() == alGekozenCategorieen.size();
+	}
+
 }
